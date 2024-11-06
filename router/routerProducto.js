@@ -1,13 +1,16 @@
 import express from "express";
 import { createProductController, getProductController, getProductsController, updateProductController, deleteProductController } from "../controller/controllerProducto.js";
-//importamos la funcion para cada caso, esa funcion va a estar el controller
+import { authMiddleware, isAdmin, isUser } from "../middleware/authMiddleware.js";
 
 const routerproductos = express.Router();
 
-routerproductos.get("/",getProductsController)
-routerproductos.get("/:id",getProductController)
-routerproductos.post("/",createProductController)
-routerproductos.put("/:id",updateProductController)
-routerproductos.delete("/:id",deleteProductController)
+
+
+routerproductos.get("/",authMiddleware,getProductsController)
+routerproductos.get("/:id",isUser,getProductController)
+routerproductos.post("/",isAdmin,createProductController)
+routerproductos.put("/:id",isAdmin,updateProductController)
+routerproductos.delete("/:id",isAdmin,deleteProductController)
+
 
 export default routerproductos;

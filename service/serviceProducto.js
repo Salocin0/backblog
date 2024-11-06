@@ -46,7 +46,7 @@ export const createProduct = ({nombre, precio}) => {
 }
 
 export const updateProduct = ({id,nombre,precio}) => {
-    const producto = productos.find((producto) => producto.id == id);
+    const producto = this.getProduct(id)
     if (!producto) {
         return -1
     }else {
@@ -57,12 +57,11 @@ export const updateProduct = ({id,nombre,precio}) => {
 }
 
 export const deleteProduct = (id) => {
-    const producto = productos.find((producto) => producto.id == id);
+    const producto = this.getProduct(id)
     if (!producto) {
         return -1
     }else{
         producto.ishabilitado = false;
         return producto
     }
-    
 }
