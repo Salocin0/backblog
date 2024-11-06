@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import routerproductos from "./router/routerProducto.js";
 
+
 const app = express();
 
 const PORT = 3000;
@@ -20,6 +21,7 @@ app.use(cors())
 //routerproductos -> 5 funciones que van a ser llamas desde aca
 
 app.use("/productos", routerproductos)
+app.use("/user", routerproductos)
 //usuarios
 //pedidos
 //empresa

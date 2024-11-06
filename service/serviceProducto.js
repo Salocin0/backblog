@@ -1,24 +1,26 @@
+import crypto from "crypto"
 let productos = [
     {
-      id: 1,
+      id: crypto.randomUUID(),
       nombre: "producto 1",
       precio: 100,
       ishabilitado: true,
+      codigo: crypto.hash("semilla", 10)
     },
     {
-      id: 2,
+      id: crypto.randomUUID(),
       nombre: "producto 2",
       precio: 200,
       ishabilitado: true,
     },
     {
-      id: 3,
+      id: crypto.randomUUID(),
       nombre: "producto 3",
       precio: 300,
       ishabilitado: false,
     },
     {
-      id: 4,
+      id: crypto.randomUUID(),
       nombre: "producto 4",
       precio: 400,
       ishabilitado: true,
@@ -36,13 +38,14 @@ export const getProducts = () => {
 
 export const createProduct = ({nombre, precio}) => {
     const producto= {
-        id: productos.length + 1,
+        id: crypto.randomUUID(),
         nombre: nombre,
         precio: precio,
         ishabilitado: true,
     }
     productos.push(producto);
     return producto
+    
 }
 
 export const updateProduct = ({id,nombre,precio}) => {
