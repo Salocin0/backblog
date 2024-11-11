@@ -6,9 +6,9 @@ import {
   deleteProduct,
 } from "../service/serviceProducto.js";
 
-export const getProductsController = (req, res) => {
+export const getProductsController = async (req, res) => {
   try {
-    const productos = getProducts();
+    const productos = await getProducts();
     res.status(200).json({
       status: "success",
       msg: "Listado de productos",
@@ -22,10 +22,10 @@ export const getProductsController = (req, res) => {
   }
 };
 
-export const getProductController = (req, res) => {
+export const getProductController = async (req, res) => {
   try {
     const id = req.params.id;
-    const producto = getProduct(id);
+    const producto = await getProduct(id);
     if (!producto) {
       res.status(400).json({ status: "error", error: "producto no encontrado", data: {} });
     } else {
@@ -37,13 +37,13 @@ export const getProductController = (req, res) => {
       .json({ status: "error", msg: "Error en el servidor", data: {} });
   }
 };
-export const createProductController = (req, res) => {
+export const createProductController = async (req, res) => {
   try {
     const { nombre, precio } = req.body;
     if (!nombre || !precio) {
       res.status(400).json({ status: "error", error: "Faltan datos", data: {} });
     }
-    const producto = createProduct({ nombre, precio });
+    const producto = await createProduct({ nombre, precio });
 
     res.status(201).json({status:"success", msg:"producto creado", data:{producto}});
   } catch (error) {
@@ -53,14 +53,14 @@ export const createProductController = (req, res) => {
   }
 };
 
-export const updateProductController = (req, res) => {
+export const updateProductController = async (req, res) => {
   try {
     const { nombre, precio } = req.body;
     const id = req.params.id;
     if (!nombre && !precio) {
       res.status(400).json({ status: "error", error: "Faltan datos", data: {} });
     }
-    const producto = updateProduct({ id, nombre, precio });
+    const producto = await updateProduct({ id, nombre, precio });
     //si no viene nombre y precio devolvemos 400
 
     if (producto == -1) {
@@ -75,10 +75,10 @@ export const updateProductController = (req, res) => {
   }
 };
 
-export const deleteProductController = (req, res) => {
+export const deleteProductController = async (req, res) => {
   try {
     const id = req.params.id;
-    const producto = deleteProduct(id);
+    const producto = await deleteProduct(id);
     if (!producto) {
       res.status(400).json({ status: "error", error: "producto no encontrado", data: {} });
     } else {

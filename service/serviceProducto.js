@@ -1,70 +1,41 @@
 import crypto from "crypto"
-let productos = [
-    {
-      id: crypto.randomUUID(),
-      nombre: "producto 1",
-      precio: 100,
-      ishabilitado: true,
-      codigo: crypto.hash("semilla", 10)
-    },
-    {
-      id: crypto.randomUUID(),
-      nombre: "producto 2",
-      precio: 200,
-      ishabilitado: true,
-    },
-    {
-      id: crypto.randomUUID(),
-      nombre: "producto 3",
-      precio: 300,
-      ishabilitado: false,
-    },
-    {
-      id: crypto.randomUUID(),
-      nombre: "producto 4",
-      precio: 400,
-      ishabilitado: true,
-    },
-  ];
+import Producto from "../model/modelProducto.js";
 
-export const getProduct = (id) => { 
-    const producto = productos.find((producto) => producto.id == id);
+export const getProduct = async (id) => { 
+    const producto = await Producto.find({id:id})
     return producto;
 }
 
-export const getProducts = () => {
-    return productos;
+export const getProducts = async () => {
+    const productos2 = await Producto.find()
+    return productos2;
 }
 
-export const createProduct = ({nombre, precio}) => {
+export const createProduct = async ({nombre, precio}) => {
     const producto= {
         id: crypto.randomUUID(),
         nombre: nombre,
         precio: precio,
         ishabilitado: true,
     }
-    productos.push(producto);
+    const producto2 = await Producto.create(producto)
     return producto
-    
 }
 
-export const updateProduct = ({id,nombre,precio}) => {
-    const producto = this.getProduct(id)
-    if (!producto) {
+export const updateProduct = async ({id,nombre,precio}) => {
+    const productoActualizado = await Producto.findOneAndUpdate({id:id},{nombre:nombre,precio:precio})
+    if (!productoActualizado) {
         return -1
     }else {
-        producto.nombre = nombre;
-        producto.precio = precio;
-        return producto
+        return productoActualizado
     }
 }
 
-export const deleteProduct = (id) => {
-    const producto = this.getProduct(id)
+export const deleteProduct = async (id) => {
+    const producto = await Producto.findOneAndUpdate({id:id},{ishabilitado:false})
     if (!producto) {
         return -1
     }else{
-        producto.ishabilitado = false;
         return producto
     }
 }
