@@ -3,6 +3,7 @@ import cors from "cors";
 import routerproductos from "./router/routerProducto.js";
 import env from "dotenv";
 import mongoose from "mongoose";
+import routerBlogs from "./router/routerBlogs.js"
 
 env.config();
 
@@ -24,10 +25,8 @@ app.use(cors())
 //routerproductos -> 5 funciones que van a ser llamas desde aca
 
 app.use("/productos", routerproductos)
-app.use("/user", routerproductos)
-//usuarios
-//pedidos
-//empresa
+//app.use("/user", routerproductos)
+app.use("/blogs",routerBlogs)
 
 
 app.use((req, res) => {
