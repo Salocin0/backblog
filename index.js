@@ -34,7 +34,7 @@ app.use((req, res) => {
 });
 
 
-mongoose.connect(process.env.MONGO_URL).then(() => {
+mongoose.connect(process.env.MONGO_URL_EXTERNO).then(() => {
   console.log("Conectado a la base de datos");
 }).catch((error) => {
   console.log(error);
