@@ -7,8 +7,20 @@ export const getProduct = async (id) => {
 }
 
 export const getProducts = async () => {
-    const productos2 = await Producto.find()
-    return productos2;
+    const productos = await Producto.find()
+    return productos;
+}
+
+export const getProductsPaginado = async (offset,limit,page) => {
+    const productos = await Producto.find().skip(offset).limit(limit)
+    const totalProductos = await Producto.countDocuments()
+    const resultado = {
+        productos: productos,
+        paginaActual: page,
+        totalProductos: totalProductos,
+        totalPaginas: Math.ceil(totalProductos/limit) // 5.01 PAGINAS = 6 PAGINAS
+    }
+    return resultado;
 }
 
 export const createProduct = async ({nombre, precio}) => {

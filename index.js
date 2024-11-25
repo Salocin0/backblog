@@ -4,6 +4,9 @@ import routerproductos from "./router/routerProducto.js";
 import env from "dotenv";
 import mongoose from "mongoose";
 import routerBlogs from "./router/routerBlogs.js"
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" assert { type: "json" };
+import routerAutores from "./router/routerAutores.js";
 
 env.config();
 
@@ -27,6 +30,8 @@ app.use(cors())
 app.use("/productos", routerproductos)
 //app.use("/user", routerproductos)
 app.use("/blogs",routerBlogs)
+app.use("/autores",routerAutores)
+app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
 
 app.use((req, res) => {
@@ -34,7 +39,7 @@ app.use((req, res) => {
 });
 
 
-mongoose.connect(process.env.MONGO_URL_EXTERNO).then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log("Conectado a la base de datos");
 }).catch((error) => {
   console.log(error);

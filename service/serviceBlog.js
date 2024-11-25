@@ -10,9 +10,14 @@ export const getBlog = async (id)=>{
     return blog
 }
 
+export const getBlogPopulate = async (id)=>{
+    const blog = await Blog.find({id:id}).populate("autor")
+    return blog
+}
+
 export const createBlog = async (contenido,titulo,imagen,autor,descripcion)=>{
     const datosBlog={
-        contenido:contenido,titulo,imagen,descripcion, id:crypto.randomUUID() // falta el autor
+        contenido:contenido,titulo,imagen,descripcion,autor, id:crypto.randomUUID()
     }
     const nuevoBlog = await Blog.create(datosBlog)
     return nuevoBlog

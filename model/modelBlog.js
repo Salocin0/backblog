@@ -5,7 +5,7 @@ const blogSchema = new mongoose.Schema({
     contenido: {type:String, require:true},
     titulo: {type:String, require:true},
     imagen: {type:String, require:true},
-    //autor: {type:Schema.Types.ObjectId, ref: "autor"},
+    autor: {type:Schema.Types.ObjectId, ref: "Autor",require:true},
     descripcion: {type:String, require:true},
     fechaPublicacion: {type:Date, default: new Date()},
     isHabilitado: {type:Boolean,default:true}

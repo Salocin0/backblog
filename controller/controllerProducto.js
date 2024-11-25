@@ -3,6 +3,7 @@ import {
   getProducts,
   createProduct,
   updateProduct,
+  getProductsPaginado,
   deleteProduct,
 } from "../service/serviceProducto.js";
 
@@ -21,6 +22,24 @@ export const getProductsController = async (req, res) => {
       .json({ status: "error", msg: "Error en el servidor", data: {} });
   }
 };
+
+export const getProductPaginadoController = async (req, res) => {
+  try {
+    const { limit=5 , page=1 } = req.query;
+    const offset = (page-1)*limit
+    const productos = await getProductsPaginado(offset,limit,page);
+    res.status(200).json({
+      status: "success",
+      msg: "Listado de productos",
+      data: productos,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ status: "error", msg: "Error en el servidor", data: {} });
+  }
+}
 
 export const getProductController = async (req, res) => {
   try {

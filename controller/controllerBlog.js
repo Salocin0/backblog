@@ -1,4 +1,4 @@
-import { getBlogs, getBlog, createBlog, updateBlog, deleteBlog } from "../service/serviceBlog.js"
+import { getBlogs, getBlog, createBlog, updateBlog, deleteBlog,getBlogPopulate } from "../service/serviceBlog.js"
 export const getBlogsController = async (req, res)=>{
     try {
         const blogs = await getBlogs()
@@ -22,6 +22,21 @@ export const getBlogController = async (req, res)=>{
             return res.status(400).json({status:"error", message:"blog no encontrados", data:{}})
         }
     } catch (error) {
+        return res.status(500).json({status:"error", message:"error en el servidor", data:{}})
+    }
+}
+
+export const getBlogPopulateController = async (req, res)=>{
+    try {
+        const id = req.params.id
+        const blog = await getBlogPopulate(id)
+        if(blog){
+            return res.status(200).json({status:"success", message:"blog encontrado", data:blog})
+        }else{
+            return res.status(400).json({status:"error", message:"blog no encontrados", data:{}})
+        }
+    } catch (error) {
+        console.log(error)
         return res.status(500).json({status:"error", message:"error en el servidor", data:{}})
     }
 }

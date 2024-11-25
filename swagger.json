@@ -1,0 +1,560 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mi API",
+        "version": "1.0.0",
+        "description": "Mi API de ejemplo"
+    },
+    "paths": {
+        "/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listado de productos",
+                "responses": {
+                    "200": {
+                        "description": "Listado de productos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Listado de productos"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "productos": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Producto 1"
+                                                            },
+                                                            "precio": {
+                                                                "type": "number",
+                                                                "example": 100
+                                                            },
+                                                            "isHabilitado": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un producto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Producto 1"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 100
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto creado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Producto 1"
+                                                },
+                                                "precio": {
+                                                    "type": "number",
+                                                    "example": 100
+                                                },
+                                                "isHabilitado": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la petición",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Faltan datos"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/productos/{id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Detalle de un producto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de un producto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto encontrado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Producto 1"
+                                                },
+                                                "precio": {
+                                                    "type": "number",
+                                                    "example": 100
+                                                },
+                                                "isHabilitado": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Producto 1"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 100
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto actualizado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Producto 1"
+                                                },
+                                                "precio": {
+                                                    "type": "number",
+                                                    "example": 100
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Producto no encontrado",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "status":{
+                                            "type":"string",
+                                            "example":"error"
+                                        },
+                                        "msg":{
+                                            "type":"string",
+                                            "example":"Producto no encontrado"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto eliminado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "b8b8b8b8-b8b8-b8b8-b8b8-b8b8b8b8b8b8"
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Producto 1"
+                                                },
+                                                "precio": {
+                                                    "type": "number",
+                                                    "example": 100
+                                                },
+                                                "isHabilitado": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Error en el servidor"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
