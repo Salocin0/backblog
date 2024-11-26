@@ -23,6 +23,41 @@ export const getProductsPaginado = async (offset,limit,page) => {
     return resultado;
 }
 
+export const getProductsFiltrado = async (offset,limit,page,nombre,precioMax,precioMin,sortby,order) => {
+    //const productos = await Producto.find()
+   
+   
+    const filters = {ishabilitado:true}
+    if(nombre){
+        filters.nombre = {$regex: nombre, $options: "i"}
+    }
+    if(precioMax|| precioMin){
+        filters.precio = {}
+        if(precioMax){
+            filters.precio.$lte = precioMax
+        }
+        if(precioMin){
+            filters.precio.$gte = precioMin
+        }
+    }
+    console.log("filtros:",filters)
+
+    const sortOptions = {}
+    if(sortby){
+        sortOptions[sortby] = order === "desc" ? -1 : 1
+    }
+    console.log("ordenamiento:",sortOptions)
+    const productos = await Producto.find(filters).sort(sortOptions).skip(offset).limit(limit)
+    const totalProductos = await Producto.countDocuments()
+    const resultado = {
+        productos: productos,
+        paginaActual: page,
+        totalProductos: totalProductos,
+        totalPaginas: Math.ceil(totalProductos/limit) // 5.01 PAGINAS = 6 PAGINAS
+    }
+    return resultado;
+}
+
 export const createProduct = async ({nombre, precio}) => {
     const producto= {
         id: crypto.randomUUID(),

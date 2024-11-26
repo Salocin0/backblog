@@ -7,7 +7,8 @@ import routerBlogs from "./router/routerBlogs.js"
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json" assert { type: "json" };
 import routerAutores from "./router/routerAutores.js";
-
+import compression from "compression";
+import zlib from "zlib";
 env.config();
 
 const app = express();
@@ -16,7 +17,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors())
-
+app.use(
+  compression({
+      brotli: {
+          enabled: true,
+          zlib: zlib.constants.BROTLI_PARAM_QUALITY,
+      },
+  })
+);
 /*
 200 OK para éxito.
 201 Created para creación exitosa.
@@ -32,6 +40,16 @@ app.use("/productos", routerproductos)
 app.use("/blogs",routerBlogs)
 app.use("/autores",routerAutores)
 app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.get("/pruebacompresion", (req, res) => {
+  const productos = Array.from({ length: 10000 }, (_, i) => ({
+    id: i + 1,
+    nombre: `Producto ${i + 1}`,
+    descripcion: `Descripción del producto ${i + 1}`,
+    precio: (Math.random() * 100).toFixed(2),
+    disponible: i % 2 === 0,
+  }));
+  res.json(productos);
+})
 
 
 app.use((req, res) => {
