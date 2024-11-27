@@ -1,26 +1,16 @@
+import jwt from "jsonwebtoken";
 export const authMiddleware = (req, res, next) => {
-    const login= true;
-    if (login) {
-        next();
-    } else {
-        res.status(401).json({ error: "No autorizado" });
+    const token = req.headers["autorization"];
+    console.log(token)
+    if (!token) {
+        return res.status(401).json({ status: "error", message: "token no encontrado", data: {} });
     }
-}
-
-export const isAdmin = (req, res, next) => {
-    const login= true;
-    if (login) {
+    jwt.verify(token, process.env.JWT_ACCESS || "cualquier clave", (err, user) => {
+        if (err) {
+            console.log(err)
+            return res.status(401).json({ status: "error", message: "token no valido", data: {} });
+        }
+        req.user = user;
         next();
-    } else {
-        res.status(401).json({ error: "No autorizado" });
-    }
-}
-
-export const isUser = (req, res, next) => {
-    const login= true;
-    if (login) {
-        next();
-    } else {
-        res.status(401).json({ error: "No autorizado" });
-    }
+    })
 }

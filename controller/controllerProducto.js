@@ -7,6 +7,7 @@ import {
   deleteProduct,
   getProductsFiltrado,
 } from "../service/serviceProducto.js";
+import { validationResult } from "express-validator";
 
 export const getProductsController = async (req, res) => {
   try {
@@ -45,11 +46,27 @@ export const getProductPaginadoController = async (req, res) => {
 export const getProductFiltradoController = async (req, res) => {
   try {
     //const { limit=5 , page=1 } = req.query;
-    
 
-    const {limit=2,page=1,nombre,precioMax,precioMin,sortby,order } = req.query; // {nombre: pepito, precio: 1000}
-    const offset = (page-1)*limit
-    const productos = await getProductsFiltrado(offset,limit,page,nombre,precioMax,precioMin,sortby,order);
+    const {
+      limit = 2,
+      page = 1,
+      nombre,
+      precioMax,
+      precioMin,
+      sortby,
+      order,
+    } = req.query; // {nombre: pepito, precio: 1000}
+    const offset = (page - 1) * limit;
+    const productos = await getProductsFiltrado(
+      offset,
+      limit,
+      page,
+      nombre,
+      precioMax,
+      precioMin,
+      sortby,
+      order
+    );
     res.status(200).json({
       status: "success",
       msg: "Listado de productos",
@@ -72,13 +89,11 @@ export const getProductController = async (req, res) => {
         .status(400)
         .json({ status: "error", error: "producto no encontrado", data: {} });
     } else {
-      res
-        .status(200)
-        .json({
-          status: "success",
-          msg: "producto encontrado",
-          data: { producto },
-        });
+      res.status(200).json({
+        status: "success",
+        msg: "producto encontrado",
+        data: { producto },
+      });
     }
   } catch (error) {
     res
@@ -88,18 +103,13 @@ export const getProductController = async (req, res) => {
 };
 export const createProductController = async (req, res) => {
   try {
-    const { nombre, precio } = req.body;
-    if (!nombre || !precio) {
-      res
-        .status(400)
-        .json({ status: "error", error: "Faltan datos", data: {} });
-    }
+    const { nombre ="asas", precio } = req.body;
     const producto = await createProduct({ nombre, precio });
-
     res
       .status(201)
       .json({ status: "success", msg: "producto creado", data: { producto } });
   } catch (error) {
+    console.log(error)
     res
       .status(500)
       .json({ status: "error", msg: "Error en el servidor", data: {} });
@@ -123,13 +133,11 @@ export const updateProductController = async (req, res) => {
         .status(400)
         .json({ status: "error", error: "producto no encontrado", data: {} });
     } else {
-      res
-        .status(200)
-        .json({
-          status: "success",
-          msg: "producto actualizado",
-          data: { producto },
-        });
+      res.status(200).json({
+        status: "success",
+        msg: "producto actualizado",
+        data: { producto },
+      });
     }
   } catch (error) {
     res
@@ -147,13 +155,11 @@ export const deleteProductController = async (req, res) => {
         .status(400)
         .json({ status: "error", error: "producto no encontrado", data: {} });
     } else {
-      res
-        .status(200)
-        .json({
-          status: "success",
-          msg: "producto eliminado",
-          data: { producto },
-        });
+      res.status(200).json({
+        status: "success",
+        msg: "producto eliminado",
+        data: { producto },
+      });
     }
   } catch (error) {
     res

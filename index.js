@@ -9,6 +9,8 @@ import swaggerDocument from "./swagger.json" assert { type: "json" };
 import routerAutores from "./router/routerAutores.js";
 import compression from "compression";
 import zlib from "zlib";
+import routerUsuarios from "./router/routerUsuario.js";
+import { authMiddleware } from "./middleware/authMiddleware.js";
 env.config();
 
 const app = express();
@@ -16,7 +18,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: "*",
+  allowedHeaders: ["Content-Type", "Authorization", "x-token"],
+}))
 app.use(
   compression({
       brotli: {
@@ -40,6 +45,13 @@ app.use("/productos", routerproductos)
 app.use("/blogs",routerBlogs)
 app.use("/autores",routerAutores)
 app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.use("/auth",routerUsuarios)
+
+app.get("/protected", authMiddleware, (req, res) => {
+  res.json({ message: "Acceso permitido", user: req.user });
+});
+
+
 app.get("/pruebacompresion", (req, res) => {
   const productos = Array.from({ length: 10000 }, (_, i) => ({
     id: i + 1,
