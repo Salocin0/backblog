@@ -7,6 +7,13 @@ export const crearUsuarioController = async (req, res) => {
   try {
     const { username, password } = req.body;
     const usuario = await crearUsuario(username, password);
+    if(usuario===-1){
+        return res.status(400).json({
+            status: "error",
+            msg: "Ingrese otro username",
+            data: {},
+          });
+    }
     res.status(201).json({
       status: "success",
       msg: "usuario creado",
@@ -24,6 +31,13 @@ export const loginUsuarioController = async (req, res) => {
   try {
     const { username, password } = req.body;
     const {accessToken, refreshToken} = await loginUsuario(username, password);
+    if(!accessToken || !refreshToken){
+        return res.status(400).json({
+            status: "error",
+            msg: "credenciales incorrectas",
+            data: {},
+          });
+    }
     res.status(201).json({
       status: "success",
       msg: "login correcto",

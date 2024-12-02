@@ -51,3 +51,9 @@ Supongamos una API RESTful para gestionar usuarios:
 
 
 ctrl + k -> v
+
+## estructura .env
+
+ - PORT=
+ - MONGO_URL=""
+

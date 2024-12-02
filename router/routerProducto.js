@@ -20,8 +20,8 @@ routerproductos.get("/", authMiddleware, getProductsController);
 routerproductos.get("/paginado",validationQueryProducto,validationMiddleware, getProductPaginadoController); // /productos/paginado
 routerproductos.get("/filtrado",validationQueryProducto,validationMiddleware, getProductFiltradoController); // /productos/paginado
 routerproductos.get("/:id", validationIdProducto,validationMiddleware, getProductController);
-routerproductos.post("/",validationBodyProducto,validationMiddleware, createProductController);
-routerproductos.put("/:id",validationIdProducto,validationBodyProducto,validationMiddleware, updateProductController);
-routerproductos.delete("/:id", validationIdProducto,validationMiddleware, deleteProductController);
+routerproductos.post("/",authMiddleware,validationBodyProducto,validationMiddleware, createProductController);
+routerproductos.put("/:id",authMiddleware,validationIdProducto,validationBodyProducto,validationMiddleware, updateProductController);
+routerproductos.delete("/:id",authMiddleware, validationIdProducto,validationMiddleware, deleteProductController);
 
 export default routerproductos;
