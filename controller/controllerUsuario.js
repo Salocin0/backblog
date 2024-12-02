@@ -38,12 +38,12 @@ export const loginUsuarioController = async (req, res) => {
     });
   }
 };
-export const generarAccessTokenController = (req, res) => {
+export const generarAccessTokenController = async(req, res) => {
     try {
-        const token = req.header["x-token"];
+        const token = req.headers["refreshtoken"];
         console.log(token)
         if (token) {
-          const accessToken = actualizarToken(token);
+          const accessToken = await actualizarToken(token);
           res.status(201).json({
             status: "success",
             msg: "token actualizado",

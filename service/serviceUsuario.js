@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import {
-  generarAccessToken,
-  generarRefreshToken,
+  generateAccessToken,
+  generateRefreshToken,
 } from "../utils/generarTokens.js";
 import jwt from "jsonwebtoken";
 import { Usuario } from "../model/modelUsuario.js";
@@ -30,26 +30,24 @@ export const loginUsuario = async (username, password) => {
   if (!passwordValido) {
     return -1;
   }
-  const accessToken = generarAccessToken({
+  const accessToken = generateAccessToken({
     id: usuarioEnBD._id,
     username: usuarioEnBD.username,
   });
-  const refreshToken = generarRefreshToken({
+  const refreshToken = generateRefreshToken({
     id: usuarioEnBD._id,
     username: usuarioEnBD.username,
   });
-  usuarioEnBD.refreshToken = refreshToken;
-  await Usuario.findOneAndUpdate({ id: usuarioEnBD.id }, usuarioEnBD);
   return { accessToken, refreshToken };
 };
 
 export const actualizarToken = async (refreshToken) => {
-  const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH);
+  const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH || "cualquierclave");
   const usuario = Usuario.findById(payload.id);
   if (!usuario) {
     return -1;
   }
-  const accessToken = generarAccessToken({
+  const accessToken = generateAccessToken({
     id: payload.id,
     username: payload.username,
   });

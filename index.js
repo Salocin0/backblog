@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors({
   origin: "*",
-  allowedHeaders: ["Content-Type", "Authorization", "x-token"],
+  allowedHeaders: ["Content-Type", "authorization", "x-refresh-token"],
 }))
 app.use(
   compression({
