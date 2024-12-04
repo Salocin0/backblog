@@ -46,7 +46,7 @@ export const createBlogController = async (req, res)=>{
         const {contenido,titulo,imagen,autor,descripcion} = req.body
         console.log(req.body)
         if(!contenido || !titulo || !imagen || !descripcion){
-            return res.status(401).json({status:"error", message:"faltan datos", data:{}})
+            return res.status(400).json({status:"error", message:"faltan datos", data:{}})
         }
         const nuevoBlog = await createBlog(contenido,titulo,imagen,autor,descripcion)
         if(nuevoBlog){

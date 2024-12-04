@@ -11,6 +11,8 @@ import compression from "compression";
 import zlib from "zlib";
 import routerUsuarios from "./router/routerUsuario.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
+import { gzipCompression } from "./middleware/gzipMiddleware.js";
+import { logger } from "./config/Winston.js";
 env.config();
 
 const app = express();
@@ -22,14 +24,30 @@ app.use(cors({
   origin: "*",
   allowedHeaders: ["Content-Type", "authorization", "x-refresh-token"],
 }))
-app.use(
+/*app.use(
   compression({
       brotli: {
           enabled: true,
           zlib: zlib.constants.BROTLI_PARAM_QUALITY,
       },
   })
-);
+);*/
+
+/*
+import compression from "compression";
+export const gzipCompression = compression({
+  filter: (req, res) => {
+    if (req.headers["x-no-compression"]) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  threshold: 1024,
+  zlib: {
+    level: 9,
+  },
+});
+*/
 /*
 200 OK para éxito.
 201 Created para creación exitosa.
@@ -39,9 +57,11 @@ app.use(
 */
 
 //routerproductos -> 5 funciones que van a ser llamas desde aca
-
+app.use((req,res,next)=>{
+  logger.info(`Ruta ${req.method} ${req.url} ${req.ip}`)
+  next()
+})
 app.use("/productos", routerproductos)
-//app.use("/user", routerproductos)
 app.use("/blogs",routerBlogs)
 app.use("/autores",routerAutores)
 app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
@@ -52,7 +72,7 @@ app.get("/protected", authMiddleware, (req, res) => {
 });
 
 
-app.get("/pruebacompresion", (req, res) => {
+app.get("/pruebacompresion",gzipCompression, (req, res) => {
   const productos = Array.from({ length: 10000 }, (_, i) => ({
     id: i + 1,
     nombre: `Producto ${i + 1}`,

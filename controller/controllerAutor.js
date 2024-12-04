@@ -26,11 +26,19 @@ export const getAutorController = async (req, res)=>{
     }
 }
 
+/**
+ * Crea un nuevo autor en la base de datos
+ * 
+ * @param {object} req - El objeto de request de express
+ * @param {object} res - El objeto de response de express
+ * 
+ * @returns {object} Un objeto en formato JSON con el estado de la operacion
+ */
 export const createAutorController = async (req, res)=>{
     try {
         const {nombre,biografia,fechaNacimiento,redSocial,fotoPerfil} = req.body
         if(!nombre || !biografia || !fechaNacimiento || !redSocial || !fotoPerfil){
-            return res.status(401).json({status:"error", message:"faltan datos", data:{}})
+            return res.status(400).json({status:"error", message:"faltan datos", data:{}})
         }
         const autor = await createAutor(nombre,biografia,fechaNacimiento,redSocial,fotoPerfil)
         if(autor){

@@ -1,0 +1,7 @@
+{"level":"info","message":"Ruta GET /productos ::1","timestamp":"2024-12-04T22:59:52.328Z"}
+{"level":"info","message":"Ruta GET /productos/ffbf1a29-6f03-4c88-b8b4-85030f4482e9 ::1","timestamp":"2024-12-04T22:59:57.032Z"}
+{"level":"warn","message":"Ruta GET /blogs/43ce4dd7-acf1-4da9-ac01-d95d9280b9e8 ::1","timestamp":"2024-12-04T23:00:46.891Z"}
+{"level":"error","message":"Ruta GET /blogs/43ce4dd7-acf1-4da9-ac01-d95d9280b9e8 ::1","timestamp":"2024-12-04T23:01:04.767Z"}
+{"level":"error","message":"Ruta GET /blogs/43ce4dd7-acf1-4da9-ac01-d95d9280b9e8 ::1","timestamp":"2024-12-04T23:08:07.638Z"}
+{"level":"info","message":"Ruta GET /blogs/43ce4dd7-acf1-4da9-ac01-d95d9280b9e8 ::1","timestamp":"2024-12-04T23:08:51.441Z"}
+{"level":"info","message":"Ruta GET /blogs/43ce4dd7-acf1-4da9-ac01-d95d9280b9e8 ::1","timestamp":"2024-12-04T23:10:13.261Z"}
